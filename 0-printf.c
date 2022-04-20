@@ -10,28 +10,52 @@
  */
 int _printf(const char *format, ...)
 {
-int i, n, char_count;
+int i, char_count, len;
 va_list ap;
 char c, c2;
 if (format == NULL)
 	return (-1);
 
 char_count = 0;
-n = get_args_count(format);
+len = 0;
+len = _strlen(format);
+
 va_start(ap, format);
-for (i = 0; i < n; i++)
+while (i < len)
 {
 	c = *(format + i);
-	c2 = *(format + ++i);
+	c2 = *(format + (i + 1));
 	if (c == '%' && c2 != '\0')
 		process_char(c2, ap);
 	else
 		putchar(c);
 	char_count++;
+	i++;
 }
 va_end(ap);
 
 return (char_count);
+}
+/**
+ * _strlen - gets the length of char array
+ *
+ * @s: pointer to array of chars
+ *
+ * Return: Number of chars in s
+ */
+int _strlen(const char *s)
+{
+int i, count;
+
+i = 0;
+count = 0;
+
+while (*(s + i) != '\0')
+{
+	count++;
+	i++;
+}
+return (count);
 }
 /**
  * process_char - outputs formatted srings
