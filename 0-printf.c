@@ -16,6 +16,7 @@ char c, c2;
 if (format == NULL)
 	return (-1);
 
+i = 0;
 char_count = 0;
 len = 0;
 len = _strlen(format);
@@ -77,6 +78,10 @@ switch (type)
 	case '%':
 		printf("%");
 		break;
+	case 'i':
+	case 'd':
+		printf("%d", va_arg(ap, int));
+		break;
 	default:
 		printf("%c", type);
 		break;
@@ -122,6 +127,8 @@ switch (c)
 	case 'c':
 	case 's':
 	case '%':
+	case 'd':
+	case 'i':
 		return (1);
 	default:
 		return (0);
