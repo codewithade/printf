@@ -10,13 +10,14 @@
  */
 int _printf(const char *format, ...)
 {
-int i, char_count, len;
+int i, char_count, len, ret;
 va_list ap;
 char c, c2;
 if (format == NULL)
 	return (-1);
 
 i = 0;
+ret = 0;
 char_count = 0;
 len = 0;
 len = _strlen(format);
@@ -28,12 +29,15 @@ while (i < len)
 	c2 = *(format + (i + 1));
 	if (c == '%' && c2 != '\0')
 	{
-		process_char(c2, ap);
+		ret = process_char(c2, ap);
 		i++;
 	}
 	else
+	{
 		putchar(c);
-	char_count++;
+		ret = 1;
+	}
+	char_count += ret;
 	i++;
 }
 va_end(ap);
@@ -68,42 +72,47 @@ return (count);
  * @ap: va_list
  * Return: Nothing
  */
-void process_char(char type, va_list ap)
+int process_char(char type, va_list ap)
 {
+int num;
+
+num = 0;
 switch (type)
 {
 	case 'c':
-		printf("%c", va_arg(ap, int));
+		num = printf("%c", va_arg(ap, int));
 		break;
 	case 's':
-		printf("%s", va_arg(ap, char *));
+		num = printf("%s", va_arg(ap, char *));
 		break;
 	case '%':
-		printf("%%");
+		num = printf("%%");
 		break;
 	case 'i':
 	case 'd':
-		printf("%d", va_arg(ap, int));
+		num = printf("%d", va_arg(ap, int));
 		break;
 	case 'u':
-		printf("%u", va_arg(ap, unsigned int));
+		num = printf("%u", va_arg(ap, unsigned int));
 		break;
 	case 'o':
-		printf("%o", va_arg(ap, unsigned int));
+		num = printf("%o", va_arg(ap, unsigned int));
 		break;
 	case 'x':
-		printf("%x", va_arg(ap, unsigned long));
+		num = printf("%x", va_arg(ap, unsigned long));
                 break;
 	case 'X':
-		printf("%X", va_arg(ap, unsigned long));
+		num = printf("%X", va_arg(ap, unsigned long));
 		break;
 	case 'p':
-		printf("%p", va_arg(ap, unsigned long));
+		num = printf("%p", va_arg(ap, unsigned long));
 		break;
 	default:
-		printf("%%%c", type);
+		num = printf("%%%c", type);
 		break;
 }
+
+return (num);
 }
 /**
  * get_args_count - gets the number of format sepcifier
