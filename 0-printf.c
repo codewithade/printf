@@ -23,6 +23,10 @@ len = 0;
 len = _strlen(format);
 
 va_start(ap, format);
+
+if (*(format + i) == '%' && len == 1)
+	return (-1);
+
 while (i < len)
 {
 	c = *(format + i);
@@ -100,7 +104,7 @@ switch (type)
 		break;
 	case 'x':
 		num = printf("%x", va_arg(ap, unsigned long));
-                break;
+		break;
 	case 'X':
 		num = printf("%X", va_arg(ap, unsigned long));
 		break;
