@@ -27,7 +27,10 @@ while (i < len)
 	c = *(format + i);
 	c2 = *(format + (i + 1));
 	if (c == '%' && c2 != '\0')
+	{
 		process_char(c2, ap);
+		i++;
+	}
 	else
 		putchar(c);
 	char_count++;
@@ -76,14 +79,29 @@ switch (type)
 		printf("%s", va_arg(ap, char *));
 		break;
 	case '%':
-		printf("%");
+		printf("%%");
 		break;
 	case 'i':
 	case 'd':
 		printf("%d", va_arg(ap, int));
 		break;
+	case 'u':
+		printf("%u", va_arg(ap, unsigned int));
+		break;
+	case 'o':
+		printf("%o", va_arg(ap, unsigned int));
+		break;
+	case 'x':
+		printf("%x", va_arg(ap, unsigned long));
+                break;
+	case 'X':
+		printf("%X", va_arg(ap, unsigned long));
+		break;
+	case 'p':
+		printf("%p", va_arg(ap, unsigned long));
+		break;
 	default:
-		printf("%c", type);
+		printf("%%%c", type);
 		break;
 }
 }
@@ -127,6 +145,7 @@ switch (c)
 	case 'c':
 	case 's':
 	case '%':
+	case 'u':
 	case 'd':
 	case 'i':
 		return (1);
